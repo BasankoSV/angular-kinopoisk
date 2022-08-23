@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import {KinopoiskService} from "./services/kinopoisk.service";
 
 @Component({
   selector: 'app-root',
@@ -7,4 +8,9 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'angular-kinopoisk';
+
+  constructor(private kinopoiskServise: KinopoiskService) {}
+
+
+
 }
