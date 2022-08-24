@@ -1,2 +1,24 @@
 <h1>Kinopoisk Project</h1>
 <h2>App component</h2>
+
+<button (click)="getMovie()">Кинопоиск</button>
+
+<div *ngIf="loader">Загрузка данных...</div>
+
+<div *ngIf="movie.length > 0; else nodata">
+  <div *ngFor="let item of movie; let idx=index">
+
+    <ul>
+      <li [style]="{ listStyleType: 'none', lineHeight: '12px'}">
+        {{ idx + 1 }}. {{ item.name }} {{ item.year }}
+      </li>
+    </ul>
+
+  </div>
+</div>
+
+
+
+<ng-template #nodata>
+  <p>Ничего не найдено...</p>
+</ng-template>

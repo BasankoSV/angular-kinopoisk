@@ -1,10 +1,10 @@
-import { NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
+import { NgModule } from '@angular/core'
+import { BrowserModule } from '@angular/platform-browser'
+import { AppRoutingModule } from './app-routing.module'
+import { HttpClientModule } from '@angular/common/http'
 
-import { AppRoutingModule } from './app-routing.module';
-import { AppComponent } from './app.component';
+import { AppComponent } from './app.component'
 
-import {HttpClient, HttpParams} from "@angular/common/http";
 
 @NgModule({
   declarations: [
@@ -12,9 +12,8 @@ import {HttpClient, HttpParams} from "@angular/common/http";
   ],
   imports: [
     BrowserModule,
-    HttpClient,
-    HttpParams,
-    AppRoutingModule
+    AppRoutingModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]
