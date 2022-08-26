@@ -1,0 +1,20 @@
+<div class="card">
+
+    <div class="image"
+         [style]="{ backgroundImage: 'url(' + movie.poster.previewUrl + ')'}">
+      <div class="rating">
+        {{ movie.rating?.kp }}
+      </div>
+      <div [style]="{ backgroundColor: movie.color}"
+        class="description">{{movie.name}}, {{movie.year}}
+        <p>{{movie.description}}</p>
+      </div>
+
+    </div>
+
+
+
+</div>
+
+
+<!--Есть ли смысл делать дополнительно, приходит мало инфы?-->

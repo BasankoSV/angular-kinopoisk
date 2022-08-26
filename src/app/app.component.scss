@@ -1,0 +1,34 @@
+* {
+ box-sizing: border-box;
+}
+
+html {
+  max-width: 1024px;
+  margin: 0 auto;
+}
+
+h1, h2 {
+  text-align: center;
+}
+
+.promo {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+
+input {
+  margin: 0 auto;
+  padding: 1rem;
+  width: 100%;
+  height: 2rem;
+  border: 2px solid #ccc;
+  border-radius: 5px;
+  font-size: 1rem;
+}
+
+.loader {
+  margin: 3rem auto;
+  text-align: center;
+  font-size: 2rem;
+}

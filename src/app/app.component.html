@@ -1,24 +1,24 @@
-<h1>Kinopoisk Project</h1>
-<h2>App component</h2>
+<h1>Kinopoisk API Project</h1>
 
-<button (click)="getMovie()">Кинопоиск</button>
+<input
+  type="text"
+  placeholder="Введите название фильма или сериала..."
+  [(ngModel)]="inputSearch"
+  (keyup.enter)="searchMovie()">
 
-<div *ngIf="loader">Загрузка данных...</div>
+<!--<button (click)="searchMovie()">ПОИСК</button>-->
 
-<div *ngIf="movie.length > 0; else nodata">
-  <div *ngFor="let item of movie; let idx=index">
+<div class="loader" *ngIf="loader">Загрузка данных...</div>
 
-    <ul>
-      <li [style]="{ listStyleType: 'none', lineHeight: '12px'}">
-        {{ idx + 1 }}. {{ item.name }} {{ item.year }}
-      </li>
-    </ul>
 
+<h2>{{title}}</h2>
+<div class="promo">
+  <div *ngFor="let film of movie">
+    <app-movie-card [movie]="film"></app-movie-card>
   </div>
 </div>
-
-
 
 <ng-template #nodata>
   <p>Ничего не найдено...</p>
 </ng-template>
+

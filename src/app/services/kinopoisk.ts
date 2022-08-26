@@ -4,6 +4,7 @@ export interface IKinopoisk {
     tmdb: number,
     imdb: string
   },
+  color?: string,
   type: string,
   name: string,
   description: string,
