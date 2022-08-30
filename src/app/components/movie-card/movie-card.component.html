@@ -2,12 +2,12 @@
 
     <div class="image"
          [style]="{ backgroundImage: 'url(' + movie.poster.previewUrl + ')'}">
-      <div class="rating">
+      <div class="rating" title="IMDb: {{ movie.rating?.imdb }}">
         {{ movie.rating?.kp }}
       </div>
-      <div [style]="{ backgroundColor: movie.color}"
-        class="description">{{movie.name}}, {{movie.year}}
-        <p>{{movie.description}}</p>
+      <div [style]="{ backgroundColor: movie.color}"  title="{{movie.description}}"
+        class="description">{{movie.name}}, {{movie.year}}, {{movie.type | movieType}}
+<!--        <p>{{movie.description}}</p>-->
       </div>
 
     </div>
@@ -17,4 +17,4 @@
 </div>
 
 
-<!--Есть ли смысл делать дополнительно, приходит мало инфы?-->
+<!--Есть ли смысл делать дополнительно, приходит мало инфы? Я выяснил, полная информация доступна только по платной подписке!-->

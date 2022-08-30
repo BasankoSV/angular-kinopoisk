@@ -21,7 +21,7 @@ export class KinopoiskService {
       `${this.URL}${this.search}`, {
         params: new HttpParams(
           {fromString:
-              `token=${this.API_TOKEN}&field=name&search=${movieName}&sortField=year&sortType=1&limit=12`
+              `token=${this.API_TOKEN}&field=name&search=${movieName}&sortField=year&sortType=1&isStrict=false&limit=12`
           })
       }
     )
@@ -49,6 +49,7 @@ export class KinopoiskService {
 // field=year&search=2017-2020: выпущены с 2017 по 2020
 // sortField=year&sortType=1&sortField=votes.imdb&sortType=-1: При этом мы ходим чтобы они были осортированы по году в порядке возрастания, но при этом были отсортированы по голосам на imdb в порядке убывания.
 // limit=10: default
+// isStrict=false - строгий поиск true
 
 
 // 'https://fakestoreapi.com/products?limit=5' - без params тоже работает

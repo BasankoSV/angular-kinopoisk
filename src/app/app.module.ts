@@ -5,13 +5,15 @@ import { HttpClientModule } from '@angular/common/http'
 import { FormsModule } from '@angular/forms'
 
 import { AppComponent } from './app.component'
-import { MovieCardComponent } from './components/movie-card/movie-card.component'
+import { MovieCardComponent } from './components/movie-card/movie-card.component';
+import { MovieTypePipe } from './pipes/movie-type.pipe'
 
 
 @NgModule({
   declarations: [
     AppComponent,
-    MovieCardComponent
+    MovieCardComponent,
+    MovieTypePipe
   ],
   imports: [
     BrowserModule,

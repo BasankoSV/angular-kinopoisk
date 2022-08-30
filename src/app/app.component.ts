@@ -1,8 +1,8 @@
-import {Component, OnInit} from '@angular/core';
-import {KinopoiskService} from "./services/kinopoisk.service";
-import {IKinopoisk} from "./services/kinopoisk";
-import {delay, tap} from "rxjs";
-import {logExperimentalWarnings} from "@angular-devkit/build-angular/src/builders/browser-esbuild/experimental-warnings";
+import {Component, OnInit } from '@angular/core'
+import { delay } from 'rxjs'
+
+import { KinopoiskService } from './services/kinopoisk.service'
+import { IKinopoisk } from './services/kinopoisk'
 
 @Component({
   selector: 'app-root',
@@ -20,7 +20,6 @@ export class AppComponent implements OnInit {
   constructor(private kinopoiskServise: KinopoiskService) {}
 
   ngOnInit(): void {
-
     this.loader = true
     this.kinopoiskServise.getMoviePromo()
       .subscribe(response => {
@@ -29,7 +28,6 @@ export class AppComponent implements OnInit {
         this.loader = false
       })
     this.title = 'Сериалы вышедшие в 2020-2022 с рейтингом Кинопоиска 7-10'
-
   }
 
   searchMovie() {
@@ -38,17 +36,19 @@ export class AppComponent implements OnInit {
     this.title = ''
 
     this.kinopoiskServise.getMovieSearch(this.inputSearch)
-      .pipe(delay(1000))//, tap( () => this.title = 'Результат поиска')
+      .pipe(delay(1000))
       .subscribe(response => {
         this.obj = response
         this.movie = Object.values(this.obj)[0]
-
-        this.movie = this.movie.filter(item => item.description != null)
+        this.movie = this.movie.filter(movie => movie.description != null)
         //TODO В выборку не должны попадать результаты, у которых рейтинг rating.kp = 0 и description - null
         //  && item.rating?.kp !== 0 - новые фильмы выпадают!
 
+        // this.movie.length ? this.title = 'Результат поиска' : this.title = 'Ничего не найдено'
+        this.movie.length ? this.title = `Результат поиска по названию фильма ${this.inputSearch}` : this.title = 'Ничего не найдено'
+
         this.loader = false
-        this.title = 'Результат поиска'
+
       })
 
   }
