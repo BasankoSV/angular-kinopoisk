@@ -1,5 +1,4 @@
-import {Component, OnInit } from '@angular/core'
-import { delay } from 'rxjs'
+import { Component, OnInit } from '@angular/core'
 
 import { KinopoiskService } from './services/kinopoisk.service'
 import { IKinopoisk } from './services/kinopoisk'
@@ -17,40 +16,60 @@ export class AppComponent implements OnInit {
   title = ''
   inputSearch = ''
 
-  constructor(private kinopoiskServise: KinopoiskService) {}
+  constructor(private kinopoiskService: KinopoiskService) {}
 
   ngOnInit(): void {
     this.loader = true
-    this.kinopoiskServise.getMoviePromo()
+    this.kinopoiskService.getMoviePromo()
       .subscribe(response => {
         this.obj = response
         this.movie = Object.values(this.obj)[0]
         this.loader = false
       })
-    this.title = 'Сериалы вышедшие в 2020-2022 с рейтингом Кинопоиска 7-10'
+    // this.title = '<Сериалы> вышедшие в <2020-2022> с рейтингом Кинопоиска <7-10>'
+    this.title = this.movieTypeNumberToString(this.kinopoiskService.movieTypeNumber) +
+                ' вышедшие в ' + this.kinopoiskService.year +
+                ' с рейтингом Кинопоиска ' + this.kinopoiskService.rating
   }
 
   searchMovie() {
+    if (this.inputSearch.trim() === '') return
     this.loader = true
     this.movie = []
     this.title = ''
 
-    this.kinopoiskServise.getMovieSearch(this.inputSearch)
-      .pipe(delay(1000))
+    this.kinopoiskService.getMovieSearch(this.inputSearch.trim())
       .subscribe(response => {
         this.obj = response
         this.movie = Object.values(this.obj)[0]
         this.movie = this.movie.filter(movie => movie.description != null)
-        //TODO В выборку не должны попадать результаты, у которых рейтинг rating.kp = 0 и description - null
-        //  && item.rating?.kp !== 0 - новые фильмы выпадают!
-
-        // this.movie.length ? this.title = 'Результат поиска' : this.title = 'Ничего не найдено'
-        this.movie.length ? this.title = `Результат поиска по названию фильма ${this.inputSearch}` : this.title = 'Ничего не найдено'
-
+        this.movie.length
+          ? this.title = `Результат поиска по названию фильма ${this.inputSearch}`
+          : this.title = 'Ничего не найдено'
         this.loader = false
-
+        this.inputSearch = ''
       })
+  }
 
+  movieTypeNumberToString(movieType:string) {
+    switch (movieType) {
+      case '1': movieType = 'Фильмы';
+        break;
+      case '2': movieType = 'Сериалы';
+        break;
+      case '3': movieType = 'Мультфильмы';
+        break
+      case '4': movieType = 'Аниме';
+        break;
+      case '5': movieType = 'Анимационные сериалы';
+        break;
+      case '6': movieType = 'ТВ-шоу';
+        break;
+      case '7': movieType = 'Мини-сериалы';
+        break;
+      default: movieType = 'Тип не указан';
+    }
+    return movieType
   }
 
 }

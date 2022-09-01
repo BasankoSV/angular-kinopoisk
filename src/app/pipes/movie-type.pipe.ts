@@ -1,5 +1,4 @@
-import { Pipe, PipeTransform } from '@angular/core';
-import {IKinopoisk} from "../services/kinopoisk";
+import { Pipe, PipeTransform } from '@angular/core'
 
 @Pipe({
   name: 'movieType'
@@ -9,22 +8,26 @@ export class MovieTypePipe implements PipeTransform {
   transform(movieType: string): string {
 
     switch (movieType) {
-      case 'movie': movieType = 'фильм';
+      case 'movie' || '1': movieType = 'фильм';
         break;
-      case 'tv-series': movieType = 'сериал';
+      case 'tv-series' || '2': movieType = 'сериал';
         break;
-      case 'cartoon': movieType = 'мультфильм';
+      case 'cartoon' || '3': movieType = 'мультфильм';
         break
-      case 'amine': movieType = 'аниме';
+      case 'anime' || '4': movieType = 'аниме';
         break;
-      case 'animated-series': movieType = 'анимационный сериал';
+      case 'animated-series' || '5': movieType = 'анимационный сериал';
         break;
-      case 'tv-show': movieType = 'тв-шоу';
+      case 'tv-show' || '6': movieType = 'тв-шоу';
         break;
-      default: movieType = 'жанр не указан';
+      case 'mini-series': movieType = 'мини-сериал';
+        break;
+      default: movieType = 'тип не указан';
     }
 
     return movieType
   }
 
 }
+
+// typeNumber: 1 (movie) | 2 (tv-series) | 3 (cartoon) | 4 (anime) | 5 (animated-series) | 6 (tv-show)
