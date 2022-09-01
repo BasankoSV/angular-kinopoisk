@@ -5,7 +5,8 @@
     class="text-input"
     placeholder="Введите название фильма или сериала..."
     [(ngModel)]="inputSearch"
-    (keyup.enter)="searchMovie()">
+    (keyup.enter)="searchMovie()"
+  >
 
   <div class="loader" *ngIf="loader">Загрузка данных...</div>
 

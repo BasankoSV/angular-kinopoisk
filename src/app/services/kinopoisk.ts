@@ -1,3 +1,11 @@
+export interface IData {
+  docs: IKinopoisk[]
+  total: number
+  limit: number
+  page: number
+  pages: number
+}
+
 export interface IKinopoisk {
   id: number,
   externalId?: {

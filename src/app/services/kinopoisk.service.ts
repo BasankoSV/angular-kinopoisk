@@ -1,60 +1,64 @@
-import { Injectable } from '@angular/core';
-import {Observable} from "rxjs";
-import {IKinopoisk} from "./kinopoisk";
-import {HttpClient, HttpParams} from "@angular/common/http";
+import { Injectable } from '@angular/core'
+import { Observable } from 'rxjs'
+import { IData } from './kinopoisk'
+import { HttpClient, HttpParams } from '@angular/common/http'
 
 type SearchType = "movie" | "person" | "review" | "image" | "season"
+type GetType = "promo" | "movie"
 
 @Injectable({
   providedIn: 'root'
 })
+
 export class KinopoiskService {
 
   private URL = 'https://api.kinopoisk.dev/'
-  private API_TOKEN = 'RXJ4PEZ-E8B4E83-NJQ1P4R-G8ZFGPS'
+  private API_TOKEN = 'token=RXJ4PEZ-E8B4E83-NJQ1P4R-G8ZFGPS'
   private search: SearchType = 'movie'
 
+  public getType: GetType = 'promo'
   public rating = '7-10'
-  public year = '2022-2022'
+  public year = '2021-2022'
   public movieTypeNumber = this.getRandomNumber(1, 7).toString()
+
+  private paramsPromo =
+    this.API_TOKEN +
+    '&field=rating.kp&search=' + this.rating +
+    '&field=year&search=' + this.year +
+    '&field=typeNumber&search=' + this.movieTypeNumber +
+    '&sortField=year&sortType=1&sortField=votes.imdb&sortType=-1&' +
+    '&limit=12'
+
+  private paramsSearchByName =
+    this.API_TOKEN +
+    '&sortField=year&sortType=1' +
+    '&isStrict=false' +
+    '&limit=12'
 
   constructor(private http: HttpClient) { }
 
   getRandomNumber(min: number, max:number):number {
-    let temp = 0
-    temp = Math.round(Math.random() * (max - min) + min)
-    temp === 6 ? temp = 7 : temp
-    return temp
+    let randomNumber = 0
+    randomNumber = Math.round(Math.random() * (max - min) + min)
+    randomNumber === 6 ? randomNumber = 7 : randomNumber // exclude number 6
+    return randomNumber
   }
 
-  getMoviePromo(): Observable<IKinopoisk[]> {
-
-    return this.http.get<IKinopoisk[]>(
-      `${this.URL}${this.search}`, {
-        params: new HttpParams(
-          {fromString:
-              'token=' + this.API_TOKEN +
-              '&field=rating.kp&search=' + this.rating +
-              '&field=year&search=' + this.year +
-              '&field=typeNumber&search=' + this.movieTypeNumber +
-              '&sortField=year&sortType=1' +
-              '&sortField=votes.imdb&sortType=-1&' +
-              '&limit=12'
-        })
-      }
-    )
+  getData(type: GetType, searchMovieName?: string ): Observable<IData> {
+    switch (type) {
+      case "promo": return this.http.get<IData>(
+        `${this.URL}${this.search}`,
+        {params: new HttpParams(
+            {fromString: this.paramsPromo})})
+        break
+      case "movie": return this.http.get<IData>(
+        `${this.URL}${this.search}`,
+        {params: new HttpParams(
+            {fromString: this.paramsSearchByName + '&field=name&search='+ searchMovieName})})
+        break
+    }
   }
 
-  getMovieSearch(movieName: string): Observable<IKinopoisk[]> {
-    return this.http.get<IKinopoisk[]>(
-      `${this.URL}${this.search}`, {
-        params: new HttpParams(
-          {fromString:
-              `token=${this.API_TOKEN}&field=name&search=${movieName}&sortField=year&sortType=1&isStrict=false&limit=12`
-          })
-      }
-    )
-  }
 }
 
 // field=typeNumber&search=2: сериалы

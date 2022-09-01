@@ -1,19 +1,13 @@
 <div class="card">
 
     <div class="image"
-         [style]="{ backgroundImage: 'url(' + movie.poster.previewUrl + ')'}">
+         [style]="{ backgroundImage: 'url(' + (movie.poster ? movie.poster.previewUrl : '../assets/image/no_image.svg') + ')'}">
       <div class="rating" title="IMDb: {{ movie.rating?.imdb }}">
         {{ movie.rating?.kp }}
       </div>
       <div class="description">{{movie.name}}, {{movie.year}}, {{movie.type | movieType}}
         <p title="{{movie.description}}">{{movie.description}}</p>
       </div>
-
     </div>
 
-
-
 </div>
-
-
-<!--Есть ли смысл делать дополнительно, приходит мало инфы? Я выяснил, полная информация доступна только по платной подписке!-->
