@@ -1,55 +1,57 @@
 import { Component, OnInit } from '@angular/core'
 
 import { KinopoiskService } from './services/kinopoisk.service'
-import {IData, IKinopoisk} from './services/kinopoisk'
+import { IData, IKinopoisk } from './services/kinopoisk'
+
+type TitleType = 'promo' | 'promo_error' | 'search' | 'search_error'
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
+
 export class AppComponent implements OnInit {
 
-  data!: IData
-  movie: IKinopoisk[] = []
-  obj: Object = {}
-  loader = false
-  title = ''
-  inputSearch = ''
+  public data!: IData
+  public movie: IKinopoisk[] = []
+  public loader = false
+  public title: TitleType = 'promo'
+  public inputSearch = ''
+  public isSearchMode = false
+  public movieNameSearch = ''
 
-  constructor(private kinopoiskService: KinopoiskService) {}
+  constructor(public kinopoiskService: KinopoiskService) { }
 
   ngOnInit(): void {
     this.loader = true
-    this.kinopoiskService.getData('promo')
+    this.kinopoiskService.getData()
       .subscribe(response => {
         this.data = response
         this.movie = this.data.docs
         this.loader = false
+        this.data.docs.length === 0 ? this.title = 'promo_error' : this.title = 'promo'
         this.statisticsLog()
       })
-    // this.title = '<Сериалы> вышедшие в <2020-2022> с рейтингом Кинопоиска <7-10>'
-    this.title = this.movieTypeNumberToString(this.kinopoiskService.movieTypeNumber) +
-                ' вышедшие в ' + this.kinopoiskService.year +
-                ' с рейтингом Кинопоиска ' + this.kinopoiskService.rating
   }
 
   searchMovie() {
     if (this.inputSearch.trim() === '') return
     this.loader = true
     this.movie = []
-    this.title = ''
+    this.title = 'search'
+    this.movieNameSearch = this.inputSearch
 
-    this.kinopoiskService.getData('movie',this.inputSearch.trim())
+    this.kinopoiskService.getData(this.inputSearch.trim())
       .subscribe(response => {
         this.data = response
         this.movie = this.data.docs
-        this.movie = this.movie.filter(movie => movie.description != null)
-        this.movie.length
-          ? this.title = `Результат поиска по названию фильма ${this.inputSearch}`
-          : this.title = 'Ничего не найдено'
+        // this.movie = this.movie.filter(movie => movie.description != null)
         this.loader = false
         this.inputSearch = ''
+        this.isSearchMode = true
+        this.data.docs.length === 0 ? this.title = 'search_error' : this.title = 'search'
+        this.statisticsLog()
       })
   }
 
@@ -63,40 +65,4 @@ export class AppComponent implements OnInit {
     console.groupEnd()
   }
 
-  movieTypeNumberToString(movieType:string) {
-    switch (movieType) {
-      case '1': movieType = 'Фильмы';
-        break;
-      case '2': movieType = 'Сериалы';
-        break;
-      case '3': movieType = 'Мультфильмы';
-        break
-      case '4': movieType = 'Аниме';
-        break;
-      case '5': movieType = 'Анимационные сериалы';
-        break;
-      case '6': movieType = 'ТВ-шоу';
-        break;
-      case '7': movieType = 'Мини-сериалы';
-        break;
-      default: movieType = 'Тип не указан';
-    }
-    return movieType
-  }
-
 }
-
-
-// ngOnInit(): void {
-//   this.loader = true
-//   this.kinopoiskService.getData('promo')
-//     .subscribe(response => {
-//       this.obj = response
-//       this.movie = Object.values(this.obj)[0]
-//       this.loader = false
-//     })
-//   // this.title = '<Сериалы> вышедшие в <2020-2022> с рейтингом Кинопоиска <7-10>'
-//   this.title = this.movieTypeNumberToString(this.kinopoiskService.movieTypeNumber) +
-//     ' вышедшие в ' + this.kinopoiskService.year +
-//     ' с рейтингом Кинопоиска ' + this.kinopoiskService.rating
-// }

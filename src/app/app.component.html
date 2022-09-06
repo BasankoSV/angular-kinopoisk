@@ -8,15 +8,39 @@
     (keyup.enter)="searchMovie()"
   >
 
-  <div class="loader" *ngIf="loader">Загрузка данных...</div>
+  <div *ngIf="!loader; else loading">
 
-  <h2>{{ title }}</h2>
-  <div class="promo">
-    <div *ngFor="let film of movie">
-      <app-movie-card [movie]="film"></app-movie-card>
+    <div [ngSwitch]="title">
+      <h2 *ngSwitchCase="'promo'">{{ kinopoiskService.movieTypeNumber | movieType}} вышедшие в {{ kinopoiskService.year }} с рейтингом Кинопоиска {{ kinopoiskService.rating }}</h2>
     </div>
+    <div [ngSwitch]="title">
+      <h2 *ngSwitchCase="'promo_error'">По запросу:
+        {{ kinopoiskService.movieTypeNumber | movieType}} вышедшие в {{ kinopoiskService.year }} с рейтингом Кинопоиска {{ kinopoiskService.rating }}
+        ничего не найдено!</h2>
+    </div>
+    <div [ngSwitch]="title">
+      <h2 *ngSwitchCase="'search'">Результат поиска по названию фильма: {{movieNameSearch}}</h2>
+    </div>
+    <div [ngSwitch]="title">
+      <h2 *ngSwitchCase="'search_error'">По названию фильма: {{movieNameSearch}}, ничего не найдено!</h2>
+    </div>
+
+
+    <div class="promo">
+      <div *ngFor="let film of movie">
+        <app-movie-card [movie]="film"></app-movie-card>
+      </div>
+    </div>
+
   </div>
+
+
 </div>
+
+<ng-template #loading>
+  <h2>Загрузка данных...</h2>
+</ng-template>
+
 
 
 

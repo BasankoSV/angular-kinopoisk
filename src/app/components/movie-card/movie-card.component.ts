@@ -1,5 +1,5 @@
-import {Component, Input, OnInit} from '@angular/core';
-import {IKinopoisk} from "../../services/kinopoisk";
+import { Component, Input } from '@angular/core'
+import { IKinopoisk } from '../../services/kinopoisk'
 
 // enum MType {
 //   'movie' = 'фильм',
@@ -16,13 +16,6 @@ import {IKinopoisk} from "../../services/kinopoisk";
   templateUrl: './movie-card.component.html',
   styleUrls: ['./movie-card.component.scss']
 })
-export class MovieCardComponent implements OnInit {
-
-
+export class MovieCardComponent {
   @Input() movie!: IKinopoisk
-
-  constructor() { }
-
-  ngOnInit(): void { }
-
 }

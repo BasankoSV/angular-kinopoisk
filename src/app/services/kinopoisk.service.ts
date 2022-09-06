@@ -1,10 +1,9 @@
 import { Injectable } from '@angular/core'
+import { HttpClient, HttpParams } from '@angular/common/http'
 import { Observable } from 'rxjs'
 import { IData } from './kinopoisk'
-import { HttpClient, HttpParams } from '@angular/common/http'
 
-type SearchType = "movie" | "person" | "review" | "image" | "season"
-type GetType = "promo" | "movie"
+type SearchType = 'movie' | 'person' | 'review' | 'image' | 'season'
 
 @Injectable({
   providedIn: 'root'
@@ -16,24 +15,25 @@ export class KinopoiskService {
   private API_TOKEN = 'token=RXJ4PEZ-E8B4E83-NJQ1P4R-G8ZFGPS'
   private search: SearchType = 'movie'
 
-  public getType: GetType = 'promo'
   public rating = '7-10'
   public year = '2021-2022'
   public movieTypeNumber = this.getRandomNumber(1, 7).toString()
+  public movieLimit = 15
 
-  private paramsPromo =
+  private paramsForAll =
     this.API_TOKEN +
+    '&limit=' + this.movieLimit
+  private paramsPromo =
+    this.paramsForAll +
     '&field=rating.kp&search=' + this.rating +
     '&field=year&search=' + this.year +
     '&field=typeNumber&search=' + this.movieTypeNumber +
-    '&sortField=year&sortType=1&sortField=votes.imdb&sortType=-1&' +
-    '&limit=12'
-
+    '&sortField=year&sortType=1&sortField=votes.imdb&sortType=-1&'
   private paramsSearchByName =
-    this.API_TOKEN +
+    this.paramsForAll +
     '&sortField=year&sortType=1' +
-    '&isStrict=false' +
-    '&limit=12'
+    '&isStrict=false'
+  private queryString = ''
 
   constructor(private http: HttpClient) { }
 
@@ -44,19 +44,20 @@ export class KinopoiskService {
     return randomNumber
   }
 
-  getData(type: GetType, searchMovieName?: string ): Observable<IData> {
-    switch (type) {
-      case "promo": return this.http.get<IData>(
-        `${this.URL}${this.search}`,
-        {params: new HttpParams(
-            {fromString: this.paramsPromo})})
-        break
-      case "movie": return this.http.get<IData>(
-        `${this.URL}${this.search}`,
-        {params: new HttpParams(
-            {fromString: this.paramsSearchByName + '&field=name&search='+ searchMovieName})})
-        break
+  getData(searchMovieName?: string ): Observable<IData> {
+    if (searchMovieName) {
+      this.queryString = this.paramsSearchByName + '&field=name&search='+ searchMovieName
+    } else {
+      this.queryString = this.paramsPromo
     }
+
+    console.log(this.queryString)
+
+    return this.http.get<IData>(
+        `${this.URL}${this.search}`,
+        {params: new HttpParams(
+            {fromString: this.queryString}
+          )})
   }
 
 }
@@ -73,7 +74,6 @@ export class KinopoiskService {
 // 'https://fakestoreapi.com/products?limit=5' - без params тоже работает
 // params: new HttpParams({ fromString: 'limit=5'})
 // params: new HttpParams({ fromObject: { limit: 5}})
-// TODO разобрать по параметрам, наглядно будет! Можно сделать форму поиска? Вынести в отдельное приложение - сделал!!!
 
 // return this.http.get<IProduct[]>('https://fakestoreapi.com/products', {
 //   params: new HttpParams().append('limit', 0)
