@@ -1,0 +1,6 @@
+<h2>{{ title }}</h2>
+<div class="cards-list">
+  <div *ngFor="let film of movie">
+    <app-movie-card [movie]="film"></app-movie-card>
+  </div>
+</div>

@@ -5,8 +5,11 @@
       <div class="rating" title="IMDb: {{ movie.rating?.imdb }}">
         {{ movie.rating?.kp }}
       </div>
-      <div class="description">{{movie.name}}, {{movie.year}}, {{movie.type | movieType}}
-        <p title="{{movie.description}}">{{movie.description}}</p>
+      <div
+        class="description"
+        title="{{ movie.description ? movie.description : 'нет описания' }}"
+      >{{ movie.name }}, {{ movie.year }}, {{ movie.type | movieType }}
+        <p>{{ movie.description }}</p>
       </div>
     </div>
 

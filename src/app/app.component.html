@@ -1,45 +1,34 @@
 <div class="container">
   <h1>Kinopoisk API Project</h1>
+  <app-movie-search
+    (onSearchMode)="updateSearchMode($event)"
+    (onTitle)="titleHandler($event)"
+    (onMovie)="movieHandler($event)"
+    (onLoader)="loaderHandler($event)"
+  ></app-movie-search>
 
-  <input
-    class="text-input"
-    placeholder="Введите название фильма или сериала..."
-    [(ngModel)]="inputSearch"
-    (keyup.enter)="searchMovie()"
-  >
+    <app-movie-promo
+      (onTitle)="titleHandler($event)"
+      (onMovie)="movieHandler($event)"
+      (onLoader)="loaderHandler($event)"
+    ></app-movie-promo>
 
   <div *ngIf="!loader; else loading">
-
-    <div [ngSwitch]="title">
-      <h2 *ngSwitchCase="'promo'">{{ kinopoiskService.movieTypeNumber | movieType}} вышедшие в {{ kinopoiskService.year }} с рейтингом Кинопоиска {{ kinopoiskService.rating }}</h2>
-    </div>
-    <div [ngSwitch]="title">
-      <h2 *ngSwitchCase="'promo_error'">По запросу:
-        {{ kinopoiskService.movieTypeNumber | movieType}} вышедшие в {{ kinopoiskService.year }} с рейтингом Кинопоиска {{ kinopoiskService.rating }}
-        ничего не найдено!</h2>
-    </div>
-    <div [ngSwitch]="title">
-      <h2 *ngSwitchCase="'search'">Результат поиска по названию фильма: {{movieNameSearch}}</h2>
-    </div>
-    <div [ngSwitch]="title">
-      <h2 *ngSwitchCase="'search_error'">По названию фильма: {{movieNameSearch}}, ничего не найдено!</h2>
-    </div>
-
-
-    <div class="promo">
-      <div *ngFor="let film of movie">
-        <app-movie-card [movie]="film"></app-movie-card>
-      </div>
-    </div>
-
+    <app-movie-cards
+      [title]="titleApp"
+      [movie]="movieApp"
+    ></app-movie-cards>
   </div>
-
 
 </div>
 
-<ng-template #loading>
-  <h2>Загрузка данных...</h2>
+<ng-template class="loader" #loading>
+  <h1>Загрузка...</h1>
 </ng-template>
+
+<div *ngIf="isSearchModeApp">
+  <button (click)="reloadPage()">На главную</button>
+</div>
 
 
 
