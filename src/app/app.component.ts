@@ -35,8 +35,7 @@ export class AppComponent {
   }
 
 }
-
-
+// TODO: вынести все вспомогательные функции в утилиты! Эту тоже взять с собой!
 // statisticsLog() {
 //   console.group('Статистика по полученным данным')
 //   console.log('Получено: ' + this.data.docs.length + ' объектов')

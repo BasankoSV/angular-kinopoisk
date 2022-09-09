@@ -1,7 +1,6 @@
 import { Component, EventEmitter, OnInit, Output } from "@angular/core"
 import { IData, IKinopoisk } from "../../services/kinopoisk"
 import { KinopoiskService } from "../../services/kinopoisk.service"
-import { delay } from "rxjs"
 
 @Component({
   selector: 'app-movie-promo',
@@ -42,7 +41,6 @@ export class MoviePromoComponent implements OnInit {
     this.preTitle = this.getMovieType(this.movieTypeNumber) +
       ' вышедшие в ' + this.year + ' с рейтингом Кинопоиска ' + this.rating
     this.kinopoiskService.getData('', this.paramsPromo)
-      .pipe(delay(1000))
       .subscribe(response => {
         this.data = response
         this.movie = this.data.docs

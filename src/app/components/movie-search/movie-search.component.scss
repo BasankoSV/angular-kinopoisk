@@ -1,14 +1,31 @@
-input {
-  display: block;
+.search {
   margin: 1rem auto;
+  width: 93%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+input, button {
   padding: 1rem;
-  width: 92%;
   border: 1px solid #e3e3e3;
   border-radius: 5px;
   font-size: 1rem;
   box-shadow: 5px 5px 4px 2px #ece3e3;
-
   &:focus {
     outline: none;
+  }
+}
+
+input {
+  flex-basis: 76%;
+}
+button {
+  flex-basis: 20%;
+  cursor: pointer;
+  &:active {
+    border-color: #d5cbcb;
+    background-color: #d5cbcb;
+    color: white;
+    box-shadow: 2px 2px 2px 1px #ece3e3;
   }
 }

@@ -1,5 +1,9 @@
-<input
-  placeholder="Введите название фильма или сериала... и нажмите Enter"
-  [(ngModel)]="inputSearch"
-  (keyup.enter)="searchMovie()"
->
+<div class="search">
+  <input
+    placeholder="Введите название фильма или сериала..."
+    [(ngModel)]="inputSearch"
+    (keyup.enter)="searchMovie()"
+  >
+  <button (click)="searchMovie()">Найти</button>
+</div>
+
