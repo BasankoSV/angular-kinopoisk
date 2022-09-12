@@ -4,6 +4,10 @@
     [(ngModel)]="inputSearch"
     (keyup.enter)="searchMovie()"
   >
-  <button (click)="searchMovie()">Найти</button>
-</div>
 
+  <button
+    [disabled]="!inputSearch"
+    (click)="searchMovie()"
+  >Найти</button>
+
+</div>

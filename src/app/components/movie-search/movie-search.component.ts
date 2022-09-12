@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Output } from "@angular/core"
 import { IData, IKinopoisk } from "../../services/kinopoisk"
 import { KinopoiskService } from "../../services/kinopoisk.service"
+import { statisticsLog } from "../../utils/utilities"
 
 @Component({
   selector: 'app-movie-search',
@@ -43,6 +44,9 @@ export class MovieSearchComponent {
         this.onTitle.emit(this.title)
         this.onMovie.emit(this.movie)
         this.onLoader.emit(false)
+
+        statisticsLog("SEARCH", this.data.docs, this.data.limit, this.data.total, this.data.page, this.data.pages)
+
       })
   }
 }

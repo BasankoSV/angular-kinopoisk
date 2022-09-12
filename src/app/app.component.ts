@@ -36,12 +36,3 @@ export class AppComponent {
 
 }
 // TODO: вынести все вспомогательные функции в утилиты! Эту тоже взять с собой!
-// statisticsLog() {
-//   console.group('Статистика по полученным данным')
-//   console.log('Получено: ' + this.data.docs.length + ' объектов')
-//   console.log('Всего найдено: ', this.data.total + ' объектов')
-//   console.log('Лимит выдачи: ', this.data.limit + ' объектов на страницу')
-//   console.log('Текущая страница номер: ', this.data.page)
-//   console.log('Всего страниц: ', this.data.pages + ' штук')
-//   console.groupEnd()
-// }
