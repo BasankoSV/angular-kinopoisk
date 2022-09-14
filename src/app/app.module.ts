@@ -10,6 +10,9 @@ import { MovieCardComponent } from "./components/movie-card/movie-card.component
 import { MovieCardsComponent } from "./components/movie-cards/movie-cards.component"
 import { MoviePromoComponent } from "./components/movie-promo/movie-promo.component"
 import { MovieSearchComponent } from "./components/movie-search/movie-search.component"
+import { PaginationComponent } from "./components/pagination/pagination.component";
+import { HandlingDataComponent } from './components/handling-data/handling-data.component';
+import { FromNumberToArrayPipe } from './pipes/from-number-to-array.pipe'
 
 
 @NgModule({
@@ -19,7 +22,10 @@ import { MovieSearchComponent } from "./components/movie-search/movie-search.com
     MovieCardComponent,
     MovieCardsComponent,
     MoviePromoComponent,
-    MovieSearchComponent
+    MovieSearchComponent,
+    PaginationComponent,
+    HandlingDataComponent,
+    FromNumberToArrayPipe
   ],
   imports: [
     BrowserModule,

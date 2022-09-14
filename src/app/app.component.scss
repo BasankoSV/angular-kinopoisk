@@ -1,6 +1,3 @@
-* {
- box-sizing: border-box;
-}
 h1 {
   margin: 2rem auto;
   text-align: center;
@@ -11,15 +8,4 @@ h1 {
   max-width: 1440px;
   margin: 0 auto;
 }
-button {
-  height: 74px;
-  width: 74px;
-  background-color: red;
-  border: none;
-  color: white;
-  border-radius: 50%;
-  cursor: pointer;
-  position: fixed;
-  bottom: 10%;
-  right: 1%;
-}
+

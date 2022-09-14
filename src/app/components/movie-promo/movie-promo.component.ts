@@ -1,7 +1,7 @@
 import { Component, EventEmitter, OnInit, Output } from "@angular/core"
 import { IData, IKinopoisk } from "../../services/kinopoisk"
 import { KinopoiskService } from "../../services/kinopoisk.service"
-import {getMovieType, getRandomNumber, statisticsLog} from "../../utils/utilities"
+import { getMovieType, getRandomNumber, statisticsLog } from "../../utils/utilities"
 
 @Component({
   selector: 'app-movie-promo',
@@ -26,10 +26,14 @@ export class MoviePromoComponent implements OnInit {
 
   public movie: IKinopoisk[] = []
   public title = ''
+  public numberPage = 1
 
   @Output() public onMovie: EventEmitter<IKinopoisk[]> = new EventEmitter<IKinopoisk[]>()
   @Output() public onTitle: EventEmitter<string> = new EventEmitter<string>()
   @Output() public onLoader: EventEmitter<boolean> = new EventEmitter<boolean>()
+  @Output() public onEmptyData: EventEmitter<boolean> = new EventEmitter<boolean>()
+  @Output() public onTotalPages: EventEmitter<number> = new EventEmitter<number>()
+  @Output() public onCurrentPage: EventEmitter<number> = new EventEmitter<number>()
 
   constructor(private kinopoiskService: KinopoiskService) { }
 
@@ -41,17 +45,26 @@ export class MoviePromoComponent implements OnInit {
   getPromoData() {
     this.preTitle = getMovieType(this.movieTypeNumber) +
       ' вышедшие в ' + this.year + ' с рейтингом Кинопоиска ' + this.rating
-    this.kinopoiskService.getData('', this.paramsPromo)
+    this.kinopoiskService.getData('', this.numberPage, this.paramsPromo)
       .subscribe(response => {
         this.data = response
         this.movie = this.data.docs
-        this.data.docs.length === 0
-          ? this.title = 'По запросу: ' + this.preTitle + ' ничего не найдено!'
-          : this.title = this.preTitle
+
+        if (this.data.docs.length === 0) {
+          this.title = 'По запросу: ' + this.preTitle + ' ничего не найдено!'
+          this.onEmptyData.emit(true)
+        } else {
+          this.title = this.preTitle
+          this.onEmptyData.emit(false)
+          this.onTotalPages.emit(this.data.pages)
+          this.onMovie.emit(this.movie)
+        }
+
         this.onLoader.emit(false)
         this.onTitle.emit(this.title)
-        this.onMovie.emit(this.movie)
-        statisticsLog("PROMO", this.data.docs, this.data.limit, this.data.total, this.data.page, this.data.pages)
+
+
+        statisticsLog("PROMO", this.data.docs, this.data.total, this.data.limit, this.data.page, this.data.pages)
       })
   }
 

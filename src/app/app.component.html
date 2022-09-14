@@ -1,33 +1,6 @@
 <div class="container">
   <h1>Kinopoisk API Project</h1>
-  <app-movie-search
-    (onSearchMode)="updateSearchMode($event)"
-    (onTitle)="titleHandler($event)"
-    (onMovie)="movieHandler($event)"
-    (onLoader)="loaderHandler($event)"
-  ></app-movie-search>
-
-    <app-movie-promo
-      (onTitle)="titleHandler($event)"
-      (onMovie)="movieHandler($event)"
-      (onLoader)="loaderHandler($event)"
-    ></app-movie-promo>
-
-  <div *ngIf="!loader; else loading">
-    <app-movie-cards
-      [title]="titleApp"
-      [movie]="movieApp"
-    ></app-movie-cards>
-  </div>
-
-</div>
-
-<ng-template class="loader" #loading>
-  <h1>Загрузка...</h1>
-</ng-template>
-
-<div *ngIf="isSearchModeApp">
-  <button (click)="reloadPage()">На главную</button>
+  <app-handling-data></app-handling-data>
 </div>
 
 

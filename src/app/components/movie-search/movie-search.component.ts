@@ -16,11 +16,14 @@ export class MovieSearchComponent {
   public title = ''
   public inputSearch = ''
   public movieNameSearch = ''
+  public numberPage = 1
 
   @Output() public onMovie: EventEmitter<IKinopoisk[]> = new EventEmitter<IKinopoisk[]>()
   @Output() public onTitle: EventEmitter<string> = new EventEmitter<string>()
   @Output() public onLoader: EventEmitter<boolean> = new EventEmitter<boolean>()
   @Output() public onSearchMode: EventEmitter<boolean> = new EventEmitter<boolean>()
+  @Output() public onEmptyData: EventEmitter<boolean> = new EventEmitter<boolean>()
+  @Output() public onTotalPages: EventEmitter<number> = new EventEmitter<number>()
 
   constructor(private kinopoiskService: KinopoiskService) { }
 
@@ -31,21 +34,28 @@ export class MovieSearchComponent {
     this.onSearchMode.emit(true)
     this.movieNameSearch = this.inputSearch
 
-    this.kinopoiskService.getData(this.inputSearch.trim())
+    this.kinopoiskService.getData(this.inputSearch.trim(), this.numberPage)
       .subscribe(response => {
         this.data = response
         this.movie = this.data.docs
         // this.movie = this.movie.filter(movie => movie.description != null)
         this.inputSearch = ''
-        this.data.docs.length === 0
-          ? this.title = `По названию фильма: ${this.movieNameSearch}, ничего не найдено!`
-          : this.title = `Результат поиска по названию фильма: ${this.movieNameSearch}`
+
+        if (this.data.docs.length === 0) {
+          this.title = `По названию фильма: ${this.movieNameSearch}, ничего не найдено!`
+          this.onEmptyData.emit(true)
+        } else {
+          this.title = `Результат поиска по названию фильма: ${this.movieNameSearch}`
+          this.onEmptyData.emit(false)
+          this.onTotalPages.emit(this.data.pages)
+          this.onMovie.emit(this.movie)
+        }
+
         this.onLoader.emit(false)
         this.onTitle.emit(this.title)
-        this.onMovie.emit(this.movie)
-        this.onLoader.emit(false)
 
-        statisticsLog("SEARCH", this.data.docs, this.data.limit, this.data.total, this.data.page, this.data.pages)
+
+        statisticsLog("SEARCH", this.data.docs, this.data.total, this.data.limit, this.data.page, this.data.pages)
 
       })
   }
