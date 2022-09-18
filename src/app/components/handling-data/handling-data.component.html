@@ -1,18 +1,10 @@
-<app-movie-promo
-  (onTitle)="titleHandler($event)"
-  (onMovie)="movieHandler($event)"
-  (onLoader)="loaderHandler($event)"
-  (onEmptyData)="dataHandler($event)"
-  (onTotalPages)="totalPagesHandler($event)"
-></app-movie-promo>
 <app-movie-search
-  (onSearchMode)="updateSearchMode($event)"
-  (onTitle)="titleHandler($event)"
-  (onMovie)="movieHandler($event)"
-  (onLoader)="loaderHandler($event)"
-  (onEmptyData)="dataHandler($event)"
-  (onTotalPages)="totalPagesHandler($event)"
+  (onSearchMode)="searchModeHandler($event)"
+  (onMovieNameSearch)="movieNameSearchHandler($event)"
 ></app-movie-search>
+
+<!--<app-movie-promo></app-movie-promo>-->
+
 
 <div *ngIf="!loader; else loading">
   <h2 class="title">{{ title }}</h2>
@@ -22,7 +14,11 @@
       [movie]="movie"
     ></app-movie-cards>
 
-    <app-pagination [totalPages]="totalPagesHD"></app-pagination>
+    <app-pagination
+      [totalPages]="totalPages"
+      [page]="currentPageFromData"
+      (onCurrentPage)="changeCurrentPageHandler($event)"
+    ></app-pagination>
 
   </div>
 
@@ -33,6 +29,6 @@
   <h1 style="text-align: center">Загрузка...</h1>
 </ng-template>
 
-<div *ngIf="isSearchModeApp">
+<div *ngIf="isSearchMode">
   <button class="btn-home" (click)="reloadPage()">На главную</button>
 </div>

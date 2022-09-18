@@ -12,42 +12,17 @@ type SearchType = 'movie' | 'person' | 'review' | 'image' | 'season'
 export class KinopoiskService {
 
   private URL = 'https://api.kinopoisk.dev/'
-  private API_TOKEN = 'token=RXJ4PEZ-E8B4E83-NJQ1P4R-G8ZFGPS'
   private search: SearchType = 'movie'
-
-  public movieLimit = 12
-
-  private paramsForAll =
-    this.API_TOKEN +
-    '&limit=' + this.movieLimit
-
-  private paramsSearchByName =
-    this.paramsForAll +
-    '&sortField=year&sortType=1' +
-    '&isStrict=false'
-  private queryString = ''
 
   constructor(private http: HttpClient) { }
 
-  getData(searchMovieName: string, numberPage: number, paramsPromo?: string): Observable<IData> {
-    if (searchMovieName) {
-      this.queryString =
-        this.paramsSearchByName +
-        '&field=name&search=' + searchMovieName +
-        '&page=' + numberPage
 
-    } else {
-      this.queryString =
-        this.paramsForAll +
-        paramsPromo +
-        '&page=' + numberPage
-    }
-
+  getData(queryString: string): Observable<IData> {
     return this.http.get<IData>(
-        `${this.URL}${this.search}`,
-        {params: new HttpParams(
-            {fromString: this.queryString}
-          )})
+      `${this.URL}${this.search}`,
+      {params: new HttpParams(
+          {fromString: queryString}
+        )})
   }
 
 }

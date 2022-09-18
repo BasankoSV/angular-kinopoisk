@@ -1,6 +1,17 @@
 <div class="pagination">
+  <button class="number_arrow-left">
+    <img src="../../../assets/image/arrow.png" alt="arrow-left">
+  </button>
   <button
-    *ngFor="let number of totalPages | fromNumberToArray"
-    class="number"
-  >{{number}}</button>
+    *ngFor="let numberPage of totalPages | fromNumberToArray"
+    [class]="numberPage == page ? 'number_current' : 'number'"
+    (click)="changeCurrentPage(numberPage)"
+  >
+      {{numberPage}}
+  </button>
+  <button class="number_arrow-right">
+    <img src="../../../assets/image/arrow.png" alt="arrow-right">
+  </button>
+  <button class="arrow"></button>
 </div>
+

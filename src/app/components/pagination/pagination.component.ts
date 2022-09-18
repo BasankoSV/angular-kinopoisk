@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from "@angular/core"
+import {Component, EventEmitter, Input, OnInit, Output} from "@angular/core"
 
 @Component({
   selector: 'app-pagination',
@@ -8,6 +8,8 @@ import {Component, Input, OnInit} from "@angular/core"
 export class PaginationComponent implements OnInit {
 
   @Input() public totalPages!: number
+  @Input() public page!: number
+  @Output() public onCurrentPage: EventEmitter<number> = new EventEmitter<number>()
 
   constructor() {
   }
@@ -16,5 +18,10 @@ export class PaginationComponent implements OnInit {
   }
 
 
-
+  changeCurrentPage(num: number) {
+    if (this.page === num) return
+    this.onCurrentPage.emit(num)
+  }
 }
+
+// TODO: ограничить количество отображаемых страниц !!!

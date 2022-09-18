@@ -3,7 +3,7 @@
     <div class="image"
          [style]="{ backgroundImage: 'url(' + (movie.poster ? movie.poster.previewUrl : '../assets/image/no_image.svg') + ')'}">
       <div class="rating" title="IMDb: {{ movie.rating?.imdb }}">
-        {{ movie.rating?.kp }}
+        {{ movie.rating?.kp?.toFixed(1) }}
       </div>
       <div
         class="description"
