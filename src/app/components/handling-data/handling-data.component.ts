@@ -23,7 +23,6 @@ export class HandlingDataComponent implements OnInit {
 
   public movie: IKinopoisk[] = []
   public loader!: boolean
-  public emptyData!: boolean
   public totalPages!: number
   public queryString = ''
   public ratingKP = '7-10'
@@ -33,8 +32,7 @@ export class HandlingDataComponent implements OnInit {
   public title = ''
 
   private data!: IData
-  private movieTypeNumber = getRandomNumber(1, 7).toString()
-  private preTitle = ''
+  private movieTypeNumber = '1' // getRandomNumber(1, 7).toString()
 
   @Input() public isSearchMode = false
   @Input() public movieNameSearch = ''
@@ -57,7 +55,7 @@ export class HandlingDataComponent implements OnInit {
       queryParams.field + 'year' + queryParams.search + this.releaseYear +
       queryParams.field + 'typeNumber' + queryParams.search + this.movieTypeNumber +
       queryParams.sortField + 'year' + queryParams.sortType + '1' +
-      queryParams.sortField + 'votes.imb' + queryParams.sortType + '-1' +
+      // queryParams.sortField + 'votes.imb' + queryParams.sortType + '-1' +  - повторяются фильмы?!
       queryParams.limit + this.limitMovie +
       queryParams.page + this.currentPageFromPagination
   }
@@ -70,7 +68,6 @@ export class HandlingDataComponent implements OnInit {
         queryParams.limit + this.limitMovie +
         queryParams.page + this.currentPageFromPagination
   }
-
 
   getDataForAll() {
     this.loader = true
@@ -108,45 +105,6 @@ export class HandlingDataComponent implements OnInit {
 
   }
 
-
-  getPromoData() {
-    this.loader = true
-    this.preTitle = getMovieType(this.movieTypeNumber) +
-      ' вышедшие в ' + this.releaseYear + ' с рейтингом Кинопоиска ' + this.ratingKP
-    this.kinopoiskService.getData(this.queryStringPromo())
-      .subscribe(response => {
-        this.data = response
-        this.movie = this.data.docs
-        if (this.data.docs.length === 0) {
-          this.title = 'По запросу: ' + this.preTitle + ' ничего не найдено!'
-          this.totalPages = 0
-        } else {
-          this.title = this.preTitle
-          this.totalPages = this.data.pages
-        }
-        this.loader = false
-      })
-  }
-
-  getSearchData() {
-    this.loader = true
-    this.kinopoiskService.getData(this.queryStringSearch(this.movieNameSearch))
-      .subscribe(response => {
-        this.data = response
-        this.movie = this.data.docs
-        // this.movie = this.movie.filter(movie => movie.description != null)
-        if (this.data.docs.length === 0) {
-          this.title = `По названию фильма: ${this.movieNameSearch}, ничего не найдено!`
-          this.totalPages = 0
-        } else {
-          this.title = `Результат поиска по названию фильма: ${this.movieNameSearch}`
-          this.totalPages = this.data.pages
-        }
-
-        this.loader = false
-      })
-  }
-
   searchModeHandler(searchMode: boolean) {
     this.isSearchMode = searchMode
   }
@@ -156,7 +114,6 @@ export class HandlingDataComponent implements OnInit {
     this.currentPageFromPagination = 1
     this.getDataForAll()
   }
-
 
   changeCurrentPageHandler(currentPage: number) {
     this.currentPageFromPagination = currentPage

@@ -9,17 +9,13 @@
 <div *ngIf="!loader; else loading">
   <h2 class="title">{{ title }}</h2>
 
-  <div *ngIf="!emptyData">
-    <app-movie-cards
-      [movie]="movie"
-    ></app-movie-cards>
-
+  <div *ngIf="!!totalPages">
+    <app-movie-cards [movie]="movie"></app-movie-cards>
     <app-pagination
       [totalPages]="totalPages"
       [page]="currentPageFromData"
       (onCurrentPage)="changeCurrentPageHandler($event)"
     ></app-pagination>
-
   </div>
 
 </div>

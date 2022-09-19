@@ -1,7 +1,11 @@
 <div class="pagination">
-  <button class="number_arrow-left">
+  <button
+    class="number_arrow-left"
+    (click)="changePageArrowLeft()"
+  >
     <img src="../../../assets/image/arrow.png" alt="arrow-left">
   </button>
+
   <button
     *ngFor="let numberPage of totalPages | fromNumberToArray"
     [class]="numberPage == page ? 'number_current' : 'number'"
@@ -9,9 +13,11 @@
   >
       {{numberPage}}
   </button>
-  <button class="number_arrow-right">
+  <button
+    class="number_arrow-right"
+    (click)="changePageArrowRight()"
+  >
     <img src="../../../assets/image/arrow.png" alt="arrow-right">
   </button>
-  <button class="arrow"></button>
 </div>
 

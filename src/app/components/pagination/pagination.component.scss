@@ -5,7 +5,10 @@
   display: flex;
   justify-content: center;
 }
-.number, .number_current, .number_arrow-left, .number_arrow-right {
+.number,
+.number_current,
+.number_arrow-left,
+.number_arrow-right {
   margin: 0 4px;
   padding: 6px 12px !important;
   width: 32px;
@@ -17,7 +20,9 @@
   justify-content: center;
   align-items: center;
 }
-.number, .number_arrow-left, .number_arrow-right {
+.number,
+.number_arrow-left,
+.number_arrow-right {
   &:hover {
     background-color: #65A3BEFF;
     color: white;
@@ -31,15 +36,3 @@
     transform: rotate(180deg);
   }
 }
-
-.arrow {
-  width: 16px;
-  height: 16px;
-  border-top: 3px solid black;
-  border-right: 3px solid black;
-  border-bottom: none;
-  border-left: none;
-  margin-right: 60px;
-  transform: rotate(45deg);
-}
-
