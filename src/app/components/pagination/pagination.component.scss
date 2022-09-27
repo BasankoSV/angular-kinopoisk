@@ -1,14 +1,19 @@
 .pagination {
   margin: 1rem auto;
-  max-width: 50%;
+  max-width: 60%;
+}
+.number-arrow_container {
   height: 32px;
   display: flex;
   justify-content: center;
+  align-items: center;
+}
+button {
+  position: relative;
 }
 .number,
-.number_current,
-.number_arrow-left,
-.number_arrow-right {
+.number-current,
+.arrow {
   margin: 0 4px;
   padding: 6px 12px !important;
   width: 32px;
@@ -21,18 +26,42 @@
   align-items: center;
 }
 .number,
-.number_arrow-left,
-.number_arrow-right {
+.arrow {
   &:hover {
     background-color: #65A3BEFF;
     color: white;
   }
-  &_current {
+  &-current {
     border: .5px solid #2F4A57FF;
     background-color: #65A3BEFF;
     color: white;
   }
-  &_arrow-left {
-    transform: rotate(180deg);
-  }
+}
+.arrow-start:before {
+  content: '\00AB';
+  position: absolute;
+  top: -4px;
+  left: 6px;
+  font-size: 32px;
+}
+.arrow-left:before {
+  content: '\2039';
+  position: absolute;
+  top: -4px;
+  left: 10px;
+  font-size: 32px;
+}
+.arrow-right:before {
+  content: '\203A';
+  position: absolute;
+  top: -4px;
+  left: 10px;
+  font-size: 32px;
+}
+.arrow-end:before {
+  content: '\00BB';
+  position: absolute;
+  top: -4px;
+  left: 6px;
+  font-size: 32px;
 }

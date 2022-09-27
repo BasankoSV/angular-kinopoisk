@@ -37,3 +37,9 @@ export function getRandomNumber(min: number, max:number):number {
   randomNumber === 6 ? randomNumber = 7 : randomNumber // exclude number 6
   return randomNumber
 }
+
+export function fromNumberToArray(num: number): number[] {
+  const newArray = []
+  for (let i = 1; i <= num; i++) newArray.push(i)
+  return newArray
+}

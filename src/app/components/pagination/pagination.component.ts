@@ -1,4 +1,5 @@
-import {Component, EventEmitter, Input, OnInit, Output} from "@angular/core"
+import { Component, EventEmitter, Input, OnInit, Output } from "@angular/core"
+import { fromNumberToArray } from "../../utils/utilities"
 
 @Component({
   selector: 'app-pagination',
@@ -7,58 +8,62 @@ import {Component, EventEmitter, Input, OnInit, Output} from "@angular/core"
 })
 export class PaginationComponent implements OnInit {
 
-  @Input() public totalPages!: number
-  @Input() public page!: number
+  @Input() public totalPagesNumber!: number
+  @Input() public currentPage!: number
   @Output() public onCurrentPage: EventEmitter<number> = new EventEmitter<number>()
 
-  constructor() {
-  }
+  public totalPagesArray: number[] = []
+  private amountPages = 7
 
   ngOnInit(): void {
-    console.log('TOTALPAGES: ', this.totalPages)
-    console.log('PAGE: ', this.page)
-
-    let newArr = this.fromNumToArr(100)
-    console.log(newArr)
+    this.initPagesArray()
   }
 
-  fromNumToArr(num: number): number[] {
-    let newArr: number[] = []
-    for (let i = 1; i <= num; i++) newArr.push(i)
-
-    newArr = [...newArr.splice(0, 5), ...newArr.splice(newArr.length - 5, 5)]
-
-    // let arr1: number[] = newArr.splice(0, 5)
-    // console.log(arr1)
-    // let arr2: number[] = newArr.splice(newArr.length - 5, 5)
-    // console.log(arr2)
-    // let arr3: number[] = [...arr1, ...arr2]
-    // console.log(arr3)
-
-    // newArr = newArr.splice(newArr.length - 5, 5) // newArr.splice(0, 5), newArr.splice(newArr.length - 5, 5)
-
-    return newArr
+  initPagesArray() {
+    this.totalPagesArray = fromNumberToArray(this.totalPagesNumber)
+    if (this.totalPagesNumber <= this.amountPages) return
+    this.totalPagesArray = this.totalPagesArray.splice(0, this.amountPages)
   }
 
-  transformTotalPages() {
-
+  changeCurrentPage(page: number) {
+    this.currentPage = page
+    this.onCurrentPage.emit(page)
   }
 
-
-  changeCurrentPage(num: number) {
-    if (this.page === num) return
-    this.onCurrentPage.emit(num)
-  }
-  changePageArrowLeft() {
-    if (this.page == 1) return
-    this.page--
-    this.onCurrentPage.emit(this.page)
-  }
-  changePageArrowRight() {
-    if (this.page == this.totalPages) return
-    this.page++
-    this.onCurrentPage.emit(this.page)
+  arrowDirection(direction: string) {
+    switch (direction) {
+      case 'left':
+        if (this.currentPage == 1) return
+        this.currentPage--
+        if ((this.currentPage < this.totalPagesNumber - 2) && this.currentPage > 3){ //Math.floor(this.amountPages / 2) // 7 = 3
+          this.totalPagesArray =
+            fromNumberToArray(this.totalPagesNumber)
+              .slice(this.currentPage - 4, this.currentPage + 3)
+        }
+        break
+      case 'right':
+        if (this.currentPage == this.totalPagesNumber) return
+        if (this.currentPage > 3 && (this.currentPage + 3 < this.totalPagesNumber)){ //Math.floor(this.amountPages / 2) // 7 = 3
+          this.totalPagesArray =
+            fromNumberToArray(this.totalPagesNumber)
+              .slice(this.currentPage - 3, this.currentPage + 4)
+        }
+        this.currentPage++
+        break
+      case 'first':
+        if (this.currentPage == 1) return
+        this.currentPage = 1
+        this.totalPagesArray = fromNumberToArray(this.totalPagesNumber).splice(0, this.amountPages)
+        break
+      case 'last':
+        if (this.currentPage == this.totalPagesNumber) return
+        this.currentPage = this.totalPagesNumber
+        this.totalPagesArray =
+          fromNumberToArray(this.totalPagesNumber)
+            .splice(-this.amountPages, this.amountPages)
+        break
+    }
   }
 }
 
-// TODO: ограничить количество отображаемых страниц !!!
+// TODO: не имитит текущую страницу

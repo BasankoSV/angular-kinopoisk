@@ -1,23 +1,22 @@
 <div class="pagination">
-  <button
-    class="number_arrow-left"
-    (click)="changePageArrowLeft()"
-  >
-    <img src="../../../assets/image/arrow.png" alt="arrow-left">
-  </button>
 
-  <button
-    *ngFor="let numberPage of totalPages | fromNumberToArray"
-    [class]="numberPage == page ? 'number_current' : 'number'"
-    (click)="changeCurrentPage(numberPage)"
-  >
-      {{numberPage}}
-  </button>
-  <button
-    class="number_arrow-right"
-    (click)="changePageArrowRight()"
-  >
-    <img src="../../../assets/image/arrow.png" alt="arrow-right">
-  </button>
+  <div class="number-arrow_container">
+    <button *ngIf="currentPage != 1" class="arrow arrow-start" (click)="arrowDirection('first')">&nbsp;&nbsp;</button>
+    <button *ngIf="currentPage != 1" class="arrow arrow-left" (click)="arrowDirection('left')">&nbsp;&nbsp;</button>
+
+    <button
+      *ngFor="let page of totalPagesArray"
+      [ngClass]="currentPage == page ? 'number-current' : 'number'"
+      (click)="changeCurrentPage(page)"
+    >{{page}}</button>
+
+    <button *ngIf="currentPage != totalPagesNumber" class="arrow arrow-right" (click)="arrowDirection('right')">&nbsp;&nbsp;</button>
+    <button *ngIf="currentPage != totalPagesNumber" class="arrow arrow-end" (click)="arrowDirection('last')">&nbsp;&nbsp;</button>
+  </div>
+
 </div>
 
+<!--<button *ngIf="currentPage != 1" class="arrow arrow-inside" (click)="arrowDirection('first')">&#171; css:\00AB</button>-->
+<!--<button *ngIf="currentPage != 1" class="arrow arrow-inside" (click)="arrowDirection('left')">&#8249; css:\2039</button>-->
+<!--<button *ngIf="currentPage != totalPagesNumber" class="arrow" (click)="arrowDirection('right')">&#8250; css:\203A</button>-->
+<!--<button *ngIf="currentPage != totalPagesNumber" class="arrow" (click)="arrowDirection('last')">&#187; css:\00BB</button>-->

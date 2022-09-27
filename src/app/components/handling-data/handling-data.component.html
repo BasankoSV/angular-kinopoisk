@@ -12,8 +12,8 @@
   <div *ngIf="!!totalPages">
     <app-movie-cards [movie]="movie"></app-movie-cards>
     <app-pagination
-      [totalPages]="totalPages"
-      [page]="currentPageFromData"
+      [totalPagesNumber]="totalPages"
+      [currentPage]="currentPageFromData"
       (onCurrentPage)="changeCurrentPageHandler($event)"
     ></app-pagination>
   </div>
