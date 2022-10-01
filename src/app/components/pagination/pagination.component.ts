@@ -40,6 +40,7 @@ export class PaginationComponent implements OnInit {
             fromNumberToArray(this.totalPagesNumber)
               .slice(this.currentPage - 4, this.currentPage + 3)
         }
+        this.onCurrentPage.emit(this.currentPage)
         break
       case 'right':
         if (this.currentPage == this.totalPagesNumber) return
@@ -49,11 +50,13 @@ export class PaginationComponent implements OnInit {
               .slice(this.currentPage - 3, this.currentPage + 4)
         }
         this.currentPage++
+        this.onCurrentPage.emit(this.currentPage)
         break
       case 'first':
         if (this.currentPage == 1) return
         this.currentPage = 1
         this.totalPagesArray = fromNumberToArray(this.totalPagesNumber).splice(0, this.amountPages)
+        this.onCurrentPage.emit(this.currentPage)
         break
       case 'last':
         if (this.currentPage == this.totalPagesNumber) return
@@ -61,9 +64,8 @@ export class PaginationComponent implements OnInit {
         this.totalPagesArray =
           fromNumberToArray(this.totalPagesNumber)
             .splice(-this.amountPages, this.amountPages)
+        this.onCurrentPage.emit(this.currentPage)
         break
     }
   }
 }
-
-// TODO: не имитит текущую страницу

@@ -2,6 +2,7 @@ import { Component, Input, OnInit } from "@angular/core"
 import { IData, IKinopoisk } from "../../services/kinopoisk"
 import { KinopoiskService } from "../../services/kinopoisk.service"
 import { getMovieType, getRandomNumber } from "../../utils/utilities"
+import { ErrorService } from "../../services/error.service"
 
 enum queryParams {
   API_TOKEN = 'token=RXJ4PEZ-E8B4E83-NJQ1P4R-G8ZFGPS',
@@ -32,13 +33,16 @@ export class HandlingDataComponent implements OnInit {
   public title = ''
 
   private data!: IData
-  private movieTypeNumber = '1' // getRandomNumber(1, 7).toString()
+  private movieTypeNumber = getRandomNumber(1, 7).toString()
 
   @Input() public isSearchMode = false
   @Input() public movieNameSearch = ''
   @Input() public currentPageFromPagination = 1
 
-  constructor(private kinopoiskService: KinopoiskService) { }
+  constructor(
+    private kinopoiskService: KinopoiskService,
+    public errorService: ErrorService
+    ) { }
 
   reloadPage() {
     window.location.reload()
@@ -72,9 +76,9 @@ export class HandlingDataComponent implements OnInit {
   getDataForAll() {
     this.loader = true
 
-    let query = ''
-    let titleOK = ''
-    let titleNotFound = ''
+    let query: string
+    let titleOK: string
+    let titleNotFound: string
 
     if (this.isSearchMode) {
       query = this.queryStringSearch(this.movieNameSearch)
@@ -101,8 +105,7 @@ export class HandlingDataComponent implements OnInit {
           this.totalPages = this.data.pages
         }
           this.loader = false
-      })
-
+      }, () => this.loader = false)
   }
 
   searchModeHandler(searchMode: boolean) {

@@ -5,6 +5,10 @@
 
 <!--<app-movie-promo></app-movie-promo>-->
 
+<div *ngIf="errorService.error$ | async as error">
+  <p class="error">{{error}}</p>
+  <h3>Обновите страницу...</h3>
+</div>
 
 <div *ngIf="!loader; else loading">
   <h2 class="title">{{ title }}</h2>
