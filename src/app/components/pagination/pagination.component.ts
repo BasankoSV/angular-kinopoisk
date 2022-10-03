@@ -31,6 +31,7 @@ export class PaginationComponent implements OnInit {
   changeCurrentPage(page: number) {
     this.currentPage = page
     this.onCurrentPage.emit(page)
+    this.onCurrentPagesArray.emit(this.totalPagesArray)
   }
 
   arrowDirection(direction: string) {
