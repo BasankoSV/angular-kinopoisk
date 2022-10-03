@@ -24,7 +24,11 @@ export class HandlingDataComponent implements OnInit {
 
   public movie: IKinopoisk[] = []
   public loader!: boolean
-  public totalPages!: number
+  public totalPagesNumber!: number
+
+  public amountPages = 7
+  public totalPagesArrayState: number[] = []
+
   public queryString = ''
   public ratingKP = '7-10'
   public releaseYear = '2022-2022'
@@ -98,11 +102,11 @@ export class HandlingDataComponent implements OnInit {
         if (this.data.docs.length === 0) {
           this.title = titleNotFound
           this.currentPageFromData = 0
-          this.totalPages = 0
+          this.totalPagesNumber = 0
         } else {
           this.title = titleOK
           this.currentPageFromData = this.data.page
-          this.totalPages = this.data.pages
+          this.totalPagesNumber = this.data.pages
         }
           this.loader = false
       }, () => this.loader = false)
@@ -122,4 +126,9 @@ export class HandlingDataComponent implements OnInit {
     this.currentPageFromPagination = currentPage
     this.getDataForAll()
   }
+
+  saveValueCurrentPagesArray(currentArray: number[]) {
+    this.totalPagesArrayState = currentArray
+  }
+
 }

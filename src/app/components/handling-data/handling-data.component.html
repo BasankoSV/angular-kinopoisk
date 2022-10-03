@@ -13,12 +13,15 @@
 <div *ngIf="!loader; else loading">
   <h2 class="title">{{ title }}</h2>
 
-  <div *ngIf="!!totalPages">
+  <div *ngIf="!!totalPagesNumber">
     <app-movie-cards [movie]="movie"></app-movie-cards>
     <app-pagination
-      [totalPagesNumber]="totalPages"
+      [totalPagesNumber]="totalPagesNumber"
+      [amountPages]="amountPages"
+      [totalPagesArray]="totalPagesArrayState"
       [currentPage]="currentPageFromData"
       (onCurrentPage)="changeCurrentPageHandler($event)"
+      (onCurrentPagesArray)="saveValueCurrentPagesArray($event)"
     ></app-pagination>
   </div>
 

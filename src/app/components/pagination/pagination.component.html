@@ -14,6 +14,8 @@
     <button *ngIf="currentPage != totalPagesNumber" class="arrow arrow-end" (click)="arrowDirection('last')">&nbsp;&nbsp;</button>
   </div>
 
+  <p>Страница: {{ currentPage }} из {{ totalPagesNumber }}</p>
+
 </div>
 
 <!--<button *ngIf="currentPage != 1" class="arrow arrow-inside" (click)="arrowDirection('first')">&#171; css:\00AB</button>-->

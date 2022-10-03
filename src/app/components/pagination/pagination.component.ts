@@ -10,16 +10,19 @@ export class PaginationComponent implements OnInit {
 
   @Input() public totalPagesNumber!: number
   @Input() public currentPage!: number
-  @Output() public onCurrentPage: EventEmitter<number> = new EventEmitter<number>()
 
-  public totalPagesArray: number[] = []
-  private amountPages = 7
+  @Input() public amountPages!: number
+  @Input() public totalPagesArray: number[] = []
+
+  @Output() public onCurrentPage: EventEmitter<number> = new EventEmitter<number>()
+  @Output() public onCurrentPagesArray: EventEmitter<number[]> = new EventEmitter<number[]>()
 
   ngOnInit(): void {
     this.initPagesArray()
   }
 
   initPagesArray() {
+    if (this.currentPage != 1) return
     this.totalPagesArray = fromNumberToArray(this.totalPagesNumber)
     if (this.totalPagesNumber <= this.amountPages) return
     this.totalPagesArray = this.totalPagesArray.splice(0, this.amountPages)
@@ -41,6 +44,7 @@ export class PaginationComponent implements OnInit {
               .slice(this.currentPage - 4, this.currentPage + 3)
         }
         this.onCurrentPage.emit(this.currentPage)
+        this.onCurrentPagesArray.emit(this.totalPagesArray)
         break
       case 'right':
         if (this.currentPage == this.totalPagesNumber) return
@@ -51,12 +55,14 @@ export class PaginationComponent implements OnInit {
         }
         this.currentPage++
         this.onCurrentPage.emit(this.currentPage)
+        this.onCurrentPagesArray.emit(this.totalPagesArray)
         break
       case 'first':
         if (this.currentPage == 1) return
         this.currentPage = 1
         this.totalPagesArray = fromNumberToArray(this.totalPagesNumber).splice(0, this.amountPages)
         this.onCurrentPage.emit(this.currentPage)
+        this.onCurrentPagesArray.emit(this.totalPagesArray)
         break
       case 'last':
         if (this.currentPage == this.totalPagesNumber) return
@@ -65,6 +71,7 @@ export class PaginationComponent implements OnInit {
           fromNumberToArray(this.totalPagesNumber)
             .splice(-this.amountPages, this.amountPages)
         this.onCurrentPage.emit(this.currentPage)
+        this.onCurrentPagesArray.emit(this.totalPagesArray)
         break
     }
   }
