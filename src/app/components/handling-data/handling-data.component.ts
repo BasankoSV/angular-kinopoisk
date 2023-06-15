@@ -31,7 +31,7 @@ export class HandlingDataComponent implements OnInit {
 
   public queryString = ''
   public ratingKP = '7-10'
-  public releaseYear = '2022-2022'
+  public releaseYear = '2023-2023'
   public limitMovie = 12
   public currentPageFromData = 1
   public title = ''
